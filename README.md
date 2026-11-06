@@ -1,48 +1,36 @@
-# Achados e Perdidos
+# Achados e Perdidos — Laravel API MVP
 
-> Status: concepção. Este repositório contém apenas o escopo inicial; ainda não há aplicação executável ou funcionalidades implementadas.
+API local em **PHP 8.2+ / Laravel 11 / SQLite** para cadastrar objetos encontrados sem registrar dados pessoais.
 
-## Ideia
+## Implementado
+- Registrar categoria, descrição pública genérica e data.
+- Consultar objetos pendentes filtrando categoria e período.
+- Registrar devolução com protocolo interno e data.
+- Objeto devolvido desaparece da listagem pendente, mas permanece consultável no histórico pelo ID.
+- Validação de entradas e teste de integração.
 
-Organizar objetos encontrados em escolas, igrejas e espaços comunitários.
+## Iniciar
+Requer PHP 8.2+, Composer e extensão SQLite:
+```bash
+composer install
+cp .env.example .env
+touch database/database.sqlite
+php artisan key:generate
+php artisan migrate
+php artisan serve --host=127.0.0.1
+```
+No Windows, crie manualmente o arquivo vazio `database/database.sqlite` antes de migrar.
 
-## Primeira versão planejada
+## Rotas
+- `GET /api/items?category=livros&from=2026-11-01&to=2026-11-30`
+- `POST /api/items` — `{"category":"livros","public_description":"Caderno simples","found_at":"2026-11-05"}`
+- `POST /api/items/{id}/return` — `{"return_reference":"protocolo-001"}`
+- `GET /api/items/{id}` — histórico do item
 
-- [ ] Registrar objeto encontrado sem dados pessoais.
-- [ ] Consultar por categoria e período.
-- [ ] Marcar devolução com registro interno.
+## Testar
+```bash
+php artisan test
+```
 
-## Modelo inicial
-
-Objeto, categoria e devolução.
-
-## Regras e limites
-
-Omitir detalhes que permitam falsa identificação; devolução encerra o anúncio.
-
-Escopo mantido pequeno: sem pagamentos, integrações externas, infraestrutura de produção ou uso de dados pessoais reais nesta etapa.
-
-## Tecnologia proposta
-
-PHP + Laravel + SQLite.
-
-A escolha é uma proposta para a futura implementação; nenhuma dependência foi instalada e a tecnologia ainda não foi implementada.
-
-## Critério de conclusão do primeiro incremento
-
-Objeto devolvido deve sair da lista de pendentes e manter seu histórico.
-
-## Próximos passos
-
-1. Revisar este escopo antes de começar a implementação.
-2. Preparar o ambiente mínimo da tecnologia escolhida.
-3. Implementar um fluxo completo e validar o critério acima.
-4. Documentar a execução e acrescentar exemplos demonstrativos.
-
-## Possíveis evoluções
-
-Depois de validar o fluxo principal, avaliar persistência, acessibilidade e uma interface mais completa conforme a plataforma. Evoluções não fazem parte da entrega atual.
-
-## Como executar
-
-Ainda não há comandos de execução. Eles serão adicionados quando existir uma primeira versão funcional.
+## Segurança e limites
+**Apenas ambiente local ou demonstrativo.** Ainda não há autenticação, papéis administrativos, proteção contra abuso ou interface gráfica. Não exponha esta API publicamente antes de implementar autorização para cadastro, consulta detalhada e devoluções. Nunca inclua detalhes privados que permitam falsa reivindicação do objeto.
