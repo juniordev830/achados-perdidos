@@ -1,6 +1,6 @@
 # Achados e Perdidos — Laravel API MVP
 
-API local em **PHP 8.2+ / Laravel 11 / SQLite** para cadastrar objetos encontrados sem registrar dados pessoais.
+API local em **PHP 8.3+ / Laravel 13 / SQLite** para cadastrar objetos encontrados sem registrar dados pessoais.
 
 ## Implementado
 - Registrar categoria, descrição pública genérica e data.
@@ -10,7 +10,7 @@ API local em **PHP 8.2+ / Laravel 11 / SQLite** para cadastrar objetos encontrad
 - Validação de entradas e teste de integração.
 
 ## Iniciar
-Requer PHP 8.2+, Composer e extensão SQLite:
+Requer PHP 8.3+, Composer e extensão SQLite:
 ```bash
 composer install
 cp .env.example .env
@@ -29,7 +29,7 @@ No Windows, crie manualmente o arquivo vazio `database/database.sqlite` antes de
 
 ## Testar
 ```bash
-php artisan test
+./vendor/bin/phpunit
 ```
 
 ## Segurança e limites
