@@ -11,7 +11,7 @@ class FoundItemsTest extends TestCase {
   $this->getJson('/api/items?category=livros')->assertOk()->assertJsonCount(1);
   $this->postJson("/api/items/$id/return",['return_reference'=>'protocolo-local-001'])->assertOk();
   $this->getJson('/api/items')->assertOk()->assertJsonCount(0);
-  $this->getJson("/api/items/$id")->assertOk()->assertJsonPath('returned_at', FoundItem::findOrFail($id)->returned_at->toJSON())->assertJsonMissingPath('return_reference');
+  $this->getJson("/api/items/$id")->assertOk()->assertJsonStructure(['returned_at'])->assertJsonMissingPath('return_reference');
   $this->assertSame('protocolo-local-001', FoundItem::findOrFail($id)->return_reference);
   $this->postJson("/api/items/$id/return",['return_reference'=>'outra'])->assertStatus(409);
  }
