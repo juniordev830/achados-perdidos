@@ -18,7 +18,7 @@ class FoundItemsController extends Controller {
   return response()->json($item->only(['id','category','public_description','found_at']),201);
  }
  public function show(FoundItem $item){
-  return response()->json($item->only(['id','category','public_description','found_at','returned_at','return_reference']));
+  return response()->json($item->only(['id','category','public_description','found_at','returned_at']));
  }
  public function markReturned(Request $request,FoundItem $item){
   $data=$request->validate(['return_reference'=>'required|string|max:80']);
