@@ -2,6 +2,7 @@
 namespace Tests\Feature;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Models\FoundItem;
 class FoundItemsTest extends TestCase {
  use RefreshDatabase;
  public function test_returned_object_leaves_open_list_but_keeps_history():void {
@@ -10,7 +11,8 @@ class FoundItemsTest extends TestCase {
   $this->getJson('/api/items?category=livros')->assertOk()->assertJsonCount(1);
   $this->postJson("/api/items/$id/return",['return_reference'=>'protocolo-local-001'])->assertOk();
   $this->getJson('/api/items')->assertOk()->assertJsonCount(0);
-  $this->getJson("/api/items/$id")->assertOk()->assertJsonPath('return_reference','protocolo-local-001');
+  $this->getJson("/api/items/$id")->assertOk()->assertJsonPath('returned_at', FoundItem::findOrFail($id)->returned_at->toJSON())->assertJsonMissingPath('return_reference');
+  $this->assertSame('protocolo-local-001', FoundItem::findOrFail($id)->return_reference);
   $this->postJson("/api/items/$id/return",['return_reference'=>'outra'])->assertStatus(409);
  }
  public function test_invalid_record_is_rejected():void {
