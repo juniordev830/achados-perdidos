@@ -1,48 +1,31 @@
 # Achados e Perdidos
 
-> Status: concepção. Este repositório contém apenas o escopo inicial; ainda não há aplicação executável ou funcionalidades implementadas.
+MVP em **PHP 8.3** para registrar objetos encontrados em ambientes comunitarios sem incluir dados pessoais de proprietarios.
 
-## Ideia
+## Funcionalidades
 
-Organizar objetos encontrados em escolas, igrejas e espaços comunitários.
-
-## Primeira versão planejada
-
-- [ ] Registrar objeto encontrado sem dados pessoais.
-- [ ] Consultar por categoria e período.
-- [ ] Marcar devolução com registro interno.
-
-## Modelo inicial
-
-Objeto, categoria e devolução.
-
-## Regras e limites
-
-Omitir detalhes que permitam falsa identificação; devolução encerra o anúncio.
-
-Escopo mantido pequeno: sem pagamentos, integrações externas, infraestrutura de produção ou uso de dados pessoais reais nesta etapa.
-
-## Tecnologia proposta
-
-PHP + Laravel + SQLite.
-
-A escolha é uma proposta para a futura implementação; nenhuma dependência foi instalada e a tecnologia ainda não foi implementada.
-
-## Critério de conclusão do primeiro incremento
-
-Objeto devolvido deve sair da lista de pendentes e manter seu histórico.
-
-## Próximos passos
-
-1. Revisar este escopo antes de começar a implementação.
-2. Preparar o ambiente mínimo da tecnologia escolhida.
-3. Implementar um fluxo completo e validar o critério acima.
-4. Documentar a execução e acrescentar exemplos demonstrativos.
-
-## Possíveis evoluções
-
-Depois de validar o fluxo principal, avaliar persistência, acessibilidade e uma interface mais completa conforme a plataforma. Evoluções não fazem parte da entrega atual.
+- Cadastra objetos por identificador, descricao generica, categoria e data.
+- Lista itens pendentes por categoria e ordena por data de encontro.
+- Registra devolucao e retira o item da lista pendente sem apagar seu historico.
+- Rejeita IDs duplicados, datas invalidas e devolucoes repetidas ou anteriores ao encontro.
+- Salva localmente em JSON por substituicao atomica no mesmo diretorio.
 
 ## Como executar
 
-Ainda não há comandos de execução. Eles serão adicionados quando existir uma primeira versão funcional.
+```bash
+php main.php adicionar dados.json chaves-1 "Chaveiro simples" objetos 2026-11-08
+php main.php adicionar dados.json roupas-1 "Blusa azul" roupas 2026-11-08
+php main.php pendentes dados.json
+php main.php pendentes dados.json roupas
+php main.php devolver dados.json chaves-1 2026-11-08
+php main.php todos dados.json
+php main.php --self-test
+```
+
+## Privacidade e limites
+
+Nao registrar nomes, telefones, fotos pessoais, detalhes identificadores ou descricoes que facilitem uma reivindicacao falsa. Exemplo e apenas ficticio; verificar propriedade antes da devolucao em um processo presencial.
+
+Arquivo JSON local, uma instancia por vez. Nao ha login, servidor publico, Laravel, SQLite ou garantia de concorrencia entre multiplos processos nesta versao. Nao publicar o arquivo de dados no repositório.
+
+Testes: PHP lint e cinco verificacoes de dominio no GitHub Actions.
