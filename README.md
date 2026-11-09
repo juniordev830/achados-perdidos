@@ -52,3 +52,21 @@ O GitHub Actions executa lint e os dois conjuntos de testes em PHP 8.2, 8.3 e 8.
 Não registrar nomes, telefones, fotos pessoais, detalhes identificadores ou descrições que facilitem reivindicação falsa. Verificar propriedade presencialmente antes da devolução. Os exemplos são fictícios. Manter JSON e CSV locais e privados, fora do Git.
 
 Esta versão não possui autenticação, servidor público, Laravel, SQLite nem garantia de concorrência entre múltiplos processos. Use uma instância de escrita por vez. O relatório não publica informações na rede.
+
+## Diagnósticos operacionais
+
+O comando operations.php é somente leitura e usa o mesmo arquivo JSON:
+
+    php operations.php diagnostico dados.json --referencia=2026-11-08
+    php operations.php pendencias dados.json --referencia=2026-11-08 --dias=30
+    php operations.php faixas dados.json --referencia=2026-11-08
+    php operations.php fluxo dados.json --referencia=2026-11-08
+    php operations.php duplicidades dados.json --janela=7
+
+- Diagnóstico: backlog em uma data, faixas de idade, fluxo mensal e potenciais duplicidades.
+- Pendências: itens ainda não devolvidos na data escolhida, com idade em dias.
+- Fluxo: encontros e devoluções por mês, sem antecipar devoluções futuras.
+- Duplicidades: mesma categoria e descrição normalizada, dentro da janela de dias. São apenas sugestões para revisão humana, não exclusões automáticas.
+- Limites: até 500 pares sugeridos por consulta; nenhum dado é alterado.
+
+Testes adicionais: php tests/OperationsTest.php e php tests/OperationsCliTest.php.
