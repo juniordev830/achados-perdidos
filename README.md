@@ -46,3 +46,7 @@ Depois de validar o fluxo principal, avaliar persistência, acessibilidade e uma
 ## Como executar
 
 Ainda não há comandos de execução. Eles serão adicionados quando existir uma primeira versão funcional.
+
+## Documentação técnica
+
+Confira o [roteiro de validação e próximos incrementos](docs/PRIMEIRO_INCREMENTO.md) para revisar a implementação e os critérios de qualidade antes de mudanças futuras.
