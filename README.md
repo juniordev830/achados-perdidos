@@ -46,3 +46,7 @@ Depois de validar o fluxo principal, avaliar persistência, acessibilidade e uma
 ## Como executar
 
 Ainda não há comandos de execução. Eles serão adicionados quando existir uma primeira versão funcional.
+
+## Roteiro de implementação
+
+Os requisitos, modelos e testes propostos estão em [docs/PRIMEIRO_INCREMENTO.md](docs/PRIMEIRO_INCREMENTO.md). Os recursos descritos no guia são planejados, não funcionalidades entregues nesta branch.
