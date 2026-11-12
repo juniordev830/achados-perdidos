@@ -45,7 +45,7 @@ Depois de validar o fluxo principal, avaliar persistência, acessibilidade e uma
 
 ## Como executar
 
-Ainda não há comandos de execução. Eles serão adicionados quando existir uma primeira versão funcional.
+O núcleo PHP demonstrativo já pode ser executado com os comandos indicados na seção abaixo. A interface web, Laravel e o banco de dados continuam planejados.
 
 ## Documentação técnica
 
@@ -53,7 +53,7 @@ Confira o [roteiro de validação e próximos incrementos](docs/PRIMEIRO_INCREME
 
 ## Núcleo PHP implementado nesta branch
 
-O catálogo em `src/Catalogo.php` registra objetos fictícios sem identificação de proprietários, permite filtrar pendências por categoria e marcar devoluções preservando o registro interno. As operações validam IDs, tamanho da descrição e datas ISO.
+O catálogo em `src/Catalogo.php` registra objetos fictícios sem identificação de proprietários, permite filtrar pendências por categoria e período de cadastro (limites inclusivos) e marcar devoluções preservando o registro interno. As operações validam IDs, tamanho da descrição e datas ISO.
 
 Requer PHP 8.3+ com a extensão `mbstring`:
 
