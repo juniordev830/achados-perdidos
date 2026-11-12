@@ -78,15 +78,30 @@ final class Catalogo
     }
 
     /** @return list<array<string, string|null>> */
-    public function pendentes(?string $categoria = null): array
+    public function pendentes(?string $categoria = null, ?string $de = null, ?string $ate = null): array
     {
+        if ($de !== null) {
+            self::validarData($de);
+        }
+        if ($ate !== null) {
+            self::validarData($ate);
+        }
+        if ($de !== null && $ate !== null && $de > $ate) {
+            throw new InvalidArgumentException('Data inicial não pode ser posterior à final.');
+        }
         $filtrados = array_values(array_filter(
             $this->objetos,
-            static function (array $registro) use ($categoria): bool {
+            static function (array $registro) use ($categoria, $de, $ate): bool {
                 if ($registro['status'] !== 'pendente') {
                     return false;
                 }
-                return $categoria === null || strcasecmp($registro['categoria'], trim($categoria)) === 0;
+                if ($categoria !== null && strcasecmp($registro['categoria'], trim($categoria)) !== 0) {
+                    return false;
+                }
+                if ($de !== null && $registro['data_registro'] < $de) {
+                    return false;
+                }
+                return $ate === null || $registro['data_registro'] <= $ate;
             }
         ));
         usort($filtrados, static fn (array $a, array $b): int =>
