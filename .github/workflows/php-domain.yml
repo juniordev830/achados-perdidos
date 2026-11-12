@@ -1,0 +1,26 @@
+name: PHP domain tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.3"
+          extensions: mbstring
+      - name: Syntax
+        run: php -l src/Catalogo.php && php -l tests/CatalogoTest.php
+      - name: Test domain
+        run: php tests/CatalogoTest.php
+      - name: Demonstration
+        run: php bin/exemplo.php
