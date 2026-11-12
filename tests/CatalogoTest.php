@@ -64,4 +64,21 @@ falhaEsperada(
     InvalidArgumentException::class
 );
 
+
+$catalogo->cadastrar('item-004', 'Roupas', 'Cachecol cinza', '2026-11-01');
+mesmo(1, count($catalogo->pendentes(null, '2026-11-01', '2026-11-01')),
+    'Período inclusivo no primeiro dia');
+mesmo('item-004', $catalogo->pendentes('roupas', '2026-11-01', '2026-11-01')[0]['id'],
+    'Categoria e período funcionam juntos');
+mesmo(1, count($catalogo->pendentes(null, '2026-11-02', '2026-11-02')),
+    'Período inclusivo no último dia');
+mesmo(0, count($catalogo->pendentes(null, '2026-11-03')),
+    'Filtro sem data final');
+falhaEsperada(fn () => $catalogo->pendentes(null, '2026-11-03', '2026-11-01'),
+    InvalidArgumentException::class);
+falhaEsperada(fn () => $catalogo->pendentes(null, '2026-02-30', null),
+    InvalidArgumentException::class);
+mesmo(2, count($catalogo->pendentes()),
+    'Filtros inválidos não modificam registros');
+
 echo "Todos os testes do catálogo passaram.\n";
