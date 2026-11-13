@@ -33,3 +33,6 @@ jobs:
       - run: php tests/OperationsTest.php
       - run: php tests/OperationsCliTest.php
       - run: php operations.php --help
+      - run: php -l src/ReturnReceipt.php
+      - run: php -l tests/return_receipt_test.php
+      - run: php tests/return_receipt_test.php
