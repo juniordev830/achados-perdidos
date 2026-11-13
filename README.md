@@ -45,7 +45,7 @@ A saída é JSON, exceto CSV. A exportação CSV inclui somente a página seleci
     php main.php --self-test
     php tests/ReportsTest.php
 
-O GitHub Actions executa lint e os dois conjuntos de testes em PHP 8.2, 8.3 e 8.4.
+O GitHub Actions executa lint, autoteste e as suítes de relatórios, operações e recibos em PHP 8.2, 8.3 e 8.4.
 
 ## Privacidade e limites
 
@@ -71,7 +71,7 @@ O comando operations.php é somente leitura e usa o mesmo arquivo JSON:
 
 Testes adicionais: php tests/OperationsTest.php e php tests/OperationsCliTest.php.
 
-### Recibo interno anônimo (incremento em revisão)
+### Recibo interno anônimo
 
 A classe `src/ReturnReceipt.php` gera um resumo determinístico de uma **devolução concluída** sem solicitar nome, telefone ou assinatura. Ela recusa itens pendentes, datas incoerentes e históricos sem evento de devolução. Trata-se de um registro interno, **não de um comprovante com validade jurídica ou assinatura**.
 
@@ -81,3 +81,7 @@ php tests/return_receipt_test.php
 ```
 
 O código usa somente PHP padrão e lê arquivos locais. O resumo não altera o catálogo.
+
+## Planejamento técnico
+
+O [roteiro original do primeiro incremento](docs/PRIMEIRO_INCREMENTO.md) foi preservado para histórico e próximos ciclos. Este MVP usa PHP e JSON local; Laravel e SQLite permanecem como possibilidades futuras, não dependências implementadas.
