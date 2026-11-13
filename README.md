@@ -70,3 +70,14 @@ O comando operations.php é somente leitura e usa o mesmo arquivo JSON:
 - Limites: até 500 pares sugeridos por consulta; nenhum dado é alterado.
 
 Testes adicionais: php tests/OperationsTest.php e php tests/OperationsCliTest.php.
+
+### Recibo interno anônimo (incremento em revisão)
+
+A classe `src/ReturnReceipt.php` gera um resumo determinístico de uma **devolução concluída** sem solicitar nome, telefone ou assinatura. Ela recusa itens pendentes, datas incoerentes e históricos sem evento de devolução. Trata-se de um registro interno, **não de um comprovante com validade jurídica ou assinatura**.
+
+```bash
+php src/ReturnReceipt.php catalogo.json ID-DO-OBJETO
+php tests/return_receipt_test.php
+```
+
+O código usa somente PHP padrão e lê arquivos locais. O resumo não altera o catálogo.
