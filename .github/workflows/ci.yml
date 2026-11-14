@@ -30,6 +30,8 @@ jobs:
       - run: php -l src/Operations.php
       - run: php -l tests/OperationsTest.php
       - run: php -l tests/OperationsCliTest.php
+      - run: php -l tests/ConcurrentWritesTest.php
+      - run: php tests/ConcurrentWritesTest.php
       - run: php tests/OperationsTest.php
       - run: php tests/OperationsCliTest.php
       - run: php operations.php --help

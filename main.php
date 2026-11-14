@@ -79,6 +79,27 @@ function saveData(string $file, array $data): void {
     }
 }
 
+
+// A lock file remains stable while the JSON is atomically renamed. Locking
+// the JSON itself would not protect readers using the replacement inode.
+function updateDataFile(string $file, callable $change): void {
+    $lockPath = $file . '.lock';
+    $lock = @fopen($lockPath, 'c');
+    if ($lock === false) throw new RuntimeException('Falha ao abrir trava do catalogo');
+    try {
+        if (!flock($lock, LOCK_EX)) throw new RuntimeException('Falha ao bloquear catalogo');
+        try {
+            $data = readData($file);
+            $updated = $change($data);
+            saveData($file, $updated);
+        } finally {
+            flock($lock, LOCK_UN);
+        }
+    } finally {
+        fclose($lock);
+    }
+}
+
 function selfTest(): void {
     $empty = ['itens' => []];
     $one = addFound($empty, 'id-1', 'Guarda-chuva', 'acessorios', '2026-11-07');
@@ -100,17 +121,16 @@ try {
     $command = $argv[1] ?? '';
     $file = $argv[2] ?? '';
     if ($file === '') throw new InvalidArgumentException('Informe o arquivo JSON');
-    $data = readData($file);
     if ($command === 'adicionar' && count($argv) === 7) {
-        $data = addFound($data, $argv[3], $argv[4], $argv[5], $argv[6]);
-        saveData($file, $data);
+        updateDataFile($file, static fn(array $data): array =>
+            addFound($data, $argv[3], $argv[4], $argv[5], $argv[6]));
     } elseif ($command === 'devolver' && count($argv) === 5) {
-        $data = markReturned($data, $argv[3], $argv[4]);
-        saveData($file, $data);
+        updateDataFile($file, static fn(array $data): array =>
+            markReturned($data, $argv[3], $argv[4]));
     } elseif ($command === 'pendentes' && (count($argv) === 3 || count($argv) === 4)) {
-        echo json_encode(pending($data, $argv[3] ?? 'todos'), JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE|JSON_THROW_ON_ERROR)."\n";
+        echo json_encode(pending(readData($file), $argv[3] ?? 'todos'), JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE|JSON_THROW_ON_ERROR)."\n";
     } elseif ($command === 'todos' && count($argv) === 3) {
-        echo json_encode(items($data), JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE|JSON_THROW_ON_ERROR)."\n";
+        echo json_encode(items(readData($file)), JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE|JSON_THROW_ON_ERROR)."\n";
     } else {
         throw new InvalidArgumentException('Uso: php main.php adicionar ARQUIVO ID OBJETO CATEGORIA DATA | devolver ARQUIVO ID DATA | pendentes ARQUIVO [CATEGORIA] | todos ARQUIVO');
     }
