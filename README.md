@@ -6,7 +6,7 @@ MVP em PHP 8.2+ para registrar objetos encontrados em ambientes comunitários se
 
 - Cadastro de objetos com identificador, descrição genérica, categoria e data.
 - Lista de pendentes, registro de devoluções e histórico preservado.
-- Validação de IDs, datas e devoluções; persistência JSON por substituição atômica.
+- Validação de IDs, datas e devoluções; persistência JSON por substituição atômica e bloqueio de escrita entre processos CLI.
 - Relatórios somente leitura com filtros por status, categoria, período e texto, além de ordenação e paginação.
 - Indicadores de pendências, devoluções, taxa de devolução, idade das pendências e distribuições por categoria/mês.
 - Histórico cronológico de encontros e devoluções.
@@ -43,6 +43,7 @@ A saída é JSON, exceto CSV. A exportação CSV inclui somente a página seleci
     php -l src/CatalogReports.php
     php -l tests/ReportsTest.php
     php main.php --self-test
+    php tests/ConcurrentWritesTest.php
     php tests/ReportsTest.php
 
 O GitHub Actions executa lint, autoteste e as suítes de relatórios, operações e recibos em PHP 8.2, 8.3 e 8.4.
@@ -51,7 +52,9 @@ O GitHub Actions executa lint, autoteste e as suítes de relatórios, operaçõe
 
 Não registrar nomes, telefones, fotos pessoais, detalhes identificadores ou descrições que facilitem reivindicação falsa. Verificar propriedade presencialmente antes da devolução. Os exemplos são fictícios. Manter JSON e CSV locais e privados, fora do Git.
 
-Esta versão não possui autenticação, servidor público, Laravel, SQLite nem garantia de concorrência entre múltiplos processos. Use uma instância de escrita por vez. O relatório não publica informações na rede.
+Esta versão não possui autenticação, servidor público, Laravel ou SQLite. A escrita por `main.php` é serializada entre processos PHP que compartilhem a mesma pasta/arquivo (cria um `.lock` estável junto ao JSON e aplica renomeação atômica). Isso evita perda de registros quando dois comandos CLI escrevem ao mesmo tempo. **Não** protege contra outros programas que editem o JSON diretamente, nem contra armazenamento em rede com travas incompatíveis; o relatório continua local e somente leitura.
+
+O arquivo `.lock` não contém dados e permanece no disco: não o apague enquanto houver um comando em execução. Mantenha o diretório do catálogo privado, com backups do JSON. Os testes executam 24 cadastros concorrentes e 6 tentativas de devolução do mesmo objeto; apenas uma devolução pode ser aceita.
 
 ## Diagnósticos operacionais
 
