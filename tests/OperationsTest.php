@@ -96,6 +96,11 @@ expect(count(CatalogOperations::possibleDuplicates(['itens' => []])) === 0, 'emp
 $otherCategory = ['itens' => [entry('x-1', 'Chave', 'roupas', '2026-11-01'), entry('x-2', 'Chave', 'objetos', '2026-11-01')]];
 expect(CatalogOperations::possibleDuplicates($otherCategory) === [], 'different category is not duplicate');
 
+$reverseOrder = array_reverse($data['itens']);
+$duplicateForward = CatalogOperations::possibleDuplicates($data);
+$duplicateReverse = CatalogOperations::possibleDuplicates(['itens' => $reverseOrder]);
+expect($duplicateForward === $duplicateReverse, 'duplicate pairs deterministic across catalog order');
+
 $health = CatalogOperations::inventoryHealth($data, '2026-11-08');
 expect($health['total_registros'] === 6, 'health total');
 expect($health['pendentes'] === 3, 'health pending');
