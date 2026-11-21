@@ -113,6 +113,7 @@ final class CatalogOperations
             $key = $item['categoria'] . "\0" . $name;
             $groups[$key][] = $item;
         }
+        ksort($groups, SORT_STRING);
         $pairs = [];
         foreach ($groups as $group) {
             usort($group, static fn(array $a, array $b): int =>
