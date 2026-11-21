@@ -132,7 +132,12 @@ final class CatalogOperations
                         'dias_entre_registros' => $days,
                         'aviso' => 'Possivel duplicidade; requer revisao humana',
                     ];
-                    if (count($pairs) >= 500) return $pairs;
+                    if (count($pairs) >= 500) {
+                        usort($pairs, static fn(array $a, array $b): int =>
+                            [$a['primeiro_id'], $a['segundo_id']] <=>
+                            [$b['primeiro_id'], $b['segundo_id']]);
+                        return $pairs;
+                    }
                 }
             }
         }
