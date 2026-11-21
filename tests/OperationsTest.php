@@ -101,6 +101,18 @@ $duplicateForward = CatalogOperations::possibleDuplicates($data);
 $duplicateReverse = CatalogOperations::possibleDuplicates(['itens' => $reverseOrder]);
 expect($duplicateForward === $duplicateReverse, 'duplicate pairs deterministic across catalog order');
 
+$many = ['itens' => []];
+for ($index = 0; $index < 34; $index++) {
+    $many['itens'][] = entry('same-' . $index, 'Chave repetida', 'objetos', '2026-11-08');
+}
+$bounded = CatalogOperations::possibleDuplicates($many, 0);
+expect(count($bounded) === 500, 'duplicate output capped at 500 pairs');
+$sorted = $bounded;
+usort($sorted, static fn(array $a, array $b): int =>
+    [$a['primeiro_id'], $a['segundo_id']] <=>
+    [$b['primeiro_id'], $b['segundo_id']]);
+expect($bounded === $sorted, 'early-return pairs remain deterministically sorted');
+
 $health = CatalogOperations::inventoryHealth($data, '2026-11-08');
 expect($health['total_registros'] === 6, 'health total');
 expect($health['pendentes'] === 3, 'health pending');
