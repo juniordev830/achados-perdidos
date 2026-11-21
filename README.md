@@ -88,3 +88,5 @@ O código usa somente PHP padrão e lê arquivos locais. O resumo não altera o 
 ## Planejamento técnico
 
 O [roteiro original do primeiro incremento](docs/PRIMEIRO_INCREMENTO.md) foi preservado para histórico e próximos ciclos. Este MVP usa PHP e JSON local; Laravel e SQLite permanecem como possibilidades futuras, não dependências implementadas.
+
+Os pares de possível duplicidade são gerados em ordem determinística de grupo e devolvidos ordenados por IDs, inclusive quando a análise atinge o limite de 500 pares. A ordem de entrada do catálogo não modifica o relatório para a mesma coleção de itens.
