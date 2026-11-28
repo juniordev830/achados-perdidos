@@ -2,9 +2,12 @@
 declare(strict_types=1);
 use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Http\Request;
+putenv('CACHE_STORE=array');
 require __DIR__.'/../vendor/autoload.php';
 $app = require __DIR__.'/../bootstrap/app.php';
 $kernel = $app->make(Kernel::class);
+$kernel->bootstrap();
+set_exception_handler(function (Throwable $error): void { fwrite(STDERR, (string) $error); exit(1); });
 function check(Kernel $kernel, string $method, string $uri, ?string $body, int $status, ?callable $verify = null): void {
     $request = Request::create($uri, $method, [], [], [], ['HTTP_ACCEPT'=>'application/json', 'CONTENT_TYPE'=>'application/json'], $body);
     $response = $kernel->handle($request);

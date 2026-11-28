@@ -8,12 +8,19 @@
   "autoload": {
     "files": [
       "../src/CatalogReports.php"
-    ]
+    ],
+    "psr-4": {
+      "App\\": "app/"
+    }
   },
   "scripts": {
-    "test": "@php tests/smoke.php"
+    "test": [
+      "@php tests/smoke.php",
+      "@php tests/regression.php"
+    ]
   },
   "config": {
     "sort-packages": true
-  }
+  },
+  "description": "API Laravel complementar ao domínio existente de achados-perdidos"
 }
