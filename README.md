@@ -1,5 +1,7 @@
 # Achados e Perdidos
 
+**Navegação** · [Funcionalidades](#funcionalidades) · [Cadastro e devolução](#cadastro-e-devolução) · [Relatórios locais](#relatórios-locais) · [Código e estudo](docs/ENGENHARIA_REVERSA.md)
+
 MVP em PHP 8.2+ para registrar objetos encontrados em ambientes comunitários sem incluir dados pessoais de proprietários.
 
 ## Funcionalidades
@@ -90,3 +92,9 @@ O código usa somente PHP padrão e lê arquivos locais. O resumo não altera o 
 O [roteiro original do primeiro incremento](docs/PRIMEIRO_INCREMENTO.md) foi preservado para histórico e próximos ciclos. Este MVP usa PHP e JSON local; Laravel e SQLite permanecem como possibilidades futuras, não dependências implementadas.
 
 Os pares de possível duplicidade são gerados em ordem determinística de grupo e devolvidos ordenados por IDs, inclusive quando a análise atinge o limite de 500 pares. A ordem de entrada do catálogo não modifica o relatório para a mesma coleção de itens.
+
+## Código e roteiro de estudo
+
+Como identificar um possível duplicado sem apagar o registro original? O [guia de engenharia reversa](docs/ENGENHARIA_REVERSA.md) reúne o mapa dos módulos e uma pergunta técnica baseada no projeto.
+
+Mantido por [João Junior](https://github.com/juniordev830).
