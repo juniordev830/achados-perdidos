@@ -1,0 +1,29 @@
+{
+  "name": "juniordev830/achados-perdidos-api",
+  "type": "project",
+  "require": {
+    "php": "^8.3",
+    "laravel/framework": "^13.0"
+  },
+  "autoload": {
+    "files": [
+      "../src/CatalogReports.php"
+    ],
+    "psr-4": {
+      "App\\": "app/"
+    }
+  },
+  "scripts": {
+    "test": [
+      "@php tests/smoke.php",
+      "@php tests/regression.php"
+    ]
+  },
+  "config": {
+    "sort-packages": true,
+    "platform": {
+      "php": "8.3.0"
+    }
+  },
+  "description": "API Laravel complementar ao domínio existente de achados-perdidos"
+}

@@ -54,7 +54,7 @@ O GitHub Actions executa lint, autoteste e as suítes de relatórios, operaçõe
 
 Não registrar nomes, telefones, fotos pessoais, detalhes identificadores ou descrições que facilitem reivindicação falsa. Verificar propriedade presencialmente antes da devolução. Os exemplos são fictícios. Manter JSON e CSV locais e privados, fora do Git.
 
-Esta versão não possui autenticação, servidor público, Laravel ou SQLite. A escrita por `main.php` é serializada entre processos PHP que compartilhem a mesma pasta/arquivo (cria um `.lock` estável junto ao JSON e aplica renomeação atômica). Isso evita perda de registros quando dois comandos CLI escrevem ao mesmo tempo. **Não** protege contra outros programas que editem o JSON diretamente, nem contra armazenamento em rede com travas incompatíveis; o relatório continua local e somente leitura.
+A CLI não possui autenticação, servidor público ou SQLite. A API Laravel complementar está em `laravel/` e se limita a relatórios locais. A escrita por `main.php` é serializada entre processos PHP que compartilhem a mesma pasta/arquivo (cria um `.lock` estável junto ao JSON e aplica renomeação atômica). Isso evita perda de registros quando dois comandos CLI escrevem ao mesmo tempo. **Não** protege contra outros programas que editem o JSON diretamente, nem contra armazenamento em rede com travas incompatíveis; o relatório continua local e somente leitura.
 
 O arquivo `.lock` não contém dados e permanece no disco: não o apague enquanto houver um comando em execução. Mantenha o diretório do catálogo privado, com backups do JSON. Os testes executam 24 cadastros concorrentes e 6 tentativas de devolução do mesmo objeto; apenas uma devolução pode ser aceita.
 
@@ -98,3 +98,7 @@ Os pares de possível duplicidade são gerados em ordem determinística de grupo
 Como identificar um possível duplicado sem apagar o registro original? O [guia de engenharia reversa](docs/ENGENHARIA_REVERSA.md) reúne o mapa dos módulos e uma pergunta técnica baseada no projeto.
 
 Mantido por [João Junior](https://github.com/juniordev830).
+
+## Integração Laravel 13
+
+Consulta paginada e resumo de devoluções sem exposição de campos privados. [Instalação, endpoints, autenticação e testes](laravel/README.md). A disponibilidade na branch principal depende da aprovação do PR desta integração.
