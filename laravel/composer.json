@@ -1,0 +1,19 @@
+{
+  "name": "juniordev830/achados-perdidos-api",
+  "type": "project",
+  "require": {
+    "php": "^8.3",
+    "laravel/framework": "^13.0"
+  },
+  "autoload": {
+    "files": [
+      "../src/CatalogReports.php"
+    ]
+  },
+  "scripts": {
+    "test": "@php tests/smoke.php"
+  },
+  "config": {
+    "sort-packages": true
+  }
+}
