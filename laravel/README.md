@@ -41,3 +41,5 @@ Entradas inválidas retornam 422, formato não suportado 415 e corpos acima do l
 `composer test` executa smoke tests e regressões diretamente pelo kernel HTTP. As regressões cobrem casos válidos e inválidos, proteção de saída, limites, 429 e ausência das rotas de armazenamento. Exceções do executor encerram o processo com código 1. O workflow `Laravel API` instala dependências pelo lock, executa auditoria, lista rotas e roda os testes em PHP 8.3 e 8.4. A suíte original da raiz continua no workflow existente.
 
 O bootstrap mínimo usa um executor HTTP independente; `composer test` é o comando de teste deste módulo. Não há PHPUnit nem comando `artisan test` instalado aqui.
+
+O Composer resolve as dependências com `config.platform.php=8.3.0` para manter o lock instalável em PHP 8.3 e 8.4. Não use `--ignore-platform-reqs` para contornar incompatibilidades.
